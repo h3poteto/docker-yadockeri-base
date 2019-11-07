@@ -13,7 +13,7 @@ ENV GOPATH /go
 RUN set -x \
     && adduser -D -u 1000 go \
     && echo 'go:password' | chpasswd \
-    && mkdir -p /go \
+    && mkdir -p /go/pkg/mod \
     && chown -R go:go /go
 
 USER go
