@@ -6,14 +6,16 @@ RUN set -ex && \
     build-base \
     tar \
     gzip \
-    curl
+    curl \
+    sudo
 
 ENV GOPATH /go
 WORKDIR /go
 
-RUN set -x \
-    && adduser -D -u 1000 go \
-    && echo 'go:password' | chpasswd
+RUN set -x && \
+    adduser -D -u 1000 go && \
+    echo 'go:password' | chpasswd && \
+    echo '%go ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 RUN set -ex && \
     go get bitbucket.org/liamstask/goose/cmd/goose && \
