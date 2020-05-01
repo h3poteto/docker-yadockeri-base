@@ -1,19 +1,22 @@
-FROM golang:1.14.2-alpine3.11
+FROM golang:1.14.2-buster
 
 RUN set -ex && \
-    apk add --no-cache \
+    apt-get update && \
+    apt-get install -y \
     git \
-    build-base \
+    build-essential \
     tar \
     gzip \
     curl \
-    sudo
+    sudo \
+    unzip && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV GOPATH /go
 WORKDIR /go
 
-RUN set -x && \
-    adduser -D -u 1000 go && \
+RUN set -ex && \
+    useradd -m -s /bin/bash go && \
     echo 'go:password' | chpasswd && \
     echo '%go ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
